@@ -1,30 +1,30 @@
-pipeline{
+pipeline {
   agent any
   tools {
     jdk 'Java17'
     maven 'Maven3'
   }
-  stages{
-    stage("Cleanup Workspace"){
-      steps{
+  stages {
+    stage("Cleanup Workspace") {
+      steps {
         cleanWs()
       }
     }
 
-    stage("Checkout from SCM"){
-      steps{
+    stage("Checkout from SCM") {
+      steps {
         git branch: 'main', credentialsId: 'github', url: 'https://github.com/Ashfaque-9x/register-app'
       }
     }
 
-    state("Build Application"){
-      steps{
+    state("Build Application") {
+      steps {
         sh "mvn clean package"
       }
     }
 
-    state("Test Application"){
-      steps{
+    state("Test Application") {
+      steps {
         sh "mvn test"
       }
     }
