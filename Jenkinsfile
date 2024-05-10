@@ -17,13 +17,13 @@ pipeline {
       }
     }
 
-    state("Build Application") {
+    stage("Build Application") {
       steps {
         sh "mvn clean package"
       }
     }
 
-    state("Test Application") {
+    stage("Test Application") {
       steps {
         sh "mvn test"
       }
