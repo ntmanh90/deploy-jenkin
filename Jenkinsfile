@@ -4,6 +4,13 @@ pipeline {
     jdk 'Java17'
     maven 'Maven3'
   }
+   environment {
+        // Định nghĩa tên image và tag, cũng như credentialsId cho Docker Hub
+        IMAGE_NAME = 'ntmanh90ksth/test-java'
+        IMAGE_TAG = 'latest'
+        DOCKER_CREDENTIALS_ID = 'dockerhub-ntmanh90'
+    }
+
   stages {
     stage("Cleanup Workspace") {
       steps {
@@ -28,7 +35,18 @@ pipeline {
         sh "mvn test"
       }
     }
+	  
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build Docker image từ Dockerfile trong thư mục hiện tại
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
+        }
 
+	    
       stage("SonarQube Analysis"){
            steps {
 	           script {
