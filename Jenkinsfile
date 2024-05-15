@@ -35,18 +35,7 @@ pipeline {
         sh "mvn test"
       }
     }
-	  
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build Docker image từ Dockerfile trong thư mục hiện tại
-                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
-                }
-            }
-        }
-
-	    
-      stage("SonarQube Analysis"){
+      stage("SonarQube Analysis") {
            steps {
 	           script {
 		        withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token') { 
@@ -55,5 +44,13 @@ pipeline {
 	           }	
            }
        }
+	stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build Docker image từ Dockerfile trong thư mục hiện tại
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
+        }
   }
 }
